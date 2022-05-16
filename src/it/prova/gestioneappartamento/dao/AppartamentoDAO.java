@@ -91,4 +91,24 @@ public class AppartamentoDAO {
 
 	}
 
+	public int delete(Appartamento input) {
+
+		if (input == null)
+			throw new RuntimeException("Impossibile eliminare Appartamento: input mancante!");
+
+		int result = 0;
+		try (Connection c = MyConnection.getConnection();
+				PreparedStatement ps = c.prepareStatement("delete from appartamento WHERE id=?;")) {
+
+			ps.setLong(1, input.getId());
+			result = ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return result;
+
+	}
+
 }

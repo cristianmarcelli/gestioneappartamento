@@ -4,22 +4,28 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import it.prova.dao.NegozioDAO;
 import it.prova.gestioneappartamento.dao.AppartamentoDAO;
 import it.prova.gestioneappartamento.model.Appartamento;
+import it.prova.model.Negozio;
 
 public class TestAppartamento {
 	public static void main(String[] args) throws ParseException {
 
-		// TEST METODO list()##########################################
-		testList();
-
-		// TEST METODO insert()######################################
-		AppartamentoDAO appartamentoDAOInstance = new AppartamentoDAO();
-		testInsert(appartamentoDAOInstance);
-
-		// TEST METODO update()########################################
-		AppartamentoDAO appartamentoDAOInstance2 = new AppartamentoDAO();
-		testUpdate(appartamentoDAOInstance2);
+//		// TEST METODO list()##########################################
+//		testList();
+//
+//		// TEST METODO insert()########################################
+//		AppartamentoDAO appartamentoDAOInstance = new AppartamentoDAO();
+//		testInsert(appartamentoDAOInstance);
+//
+//		// TEST METODO update()########################################
+//		AppartamentoDAO appartamentoDAOInstance2 = new AppartamentoDAO();
+//		testUpdate(appartamentoDAOInstance2);
+//		
+//		// TEST METODO delete()########################################
+//		AppartamentoDAO appartamentoDAOInstance3 = new AppartamentoDAO();
+//		testDelete(appartamentoDAOInstance3);
 
 	}
 
@@ -61,6 +67,18 @@ public class TestAppartamento {
 		appartamentoDAOInstance.update(appartamentoDaModificare);
 
 		System.out.println("testUpdateAppartamento fine.......");
+	}
+	
+	private static void testDelete(AppartamentoDAO appartamentoDAOInstance) {
+		System.out.println(".......testDelete inizio.............");
+
+		Appartamento appartamentoDaEliminare = appartamentoDAOInstance.list().get(0);
+
+		int quantiAppartamentiEliminati = appartamentoDAOInstance.delete(appartamentoDaEliminare);
+		if (quantiAppartamentiEliminati < 1)
+			throw new RuntimeException("testDeleteNegozio : FAILED");
+
+		System.out.println(".......testDelete fine: PASSED.............");
 	}
 
 }
