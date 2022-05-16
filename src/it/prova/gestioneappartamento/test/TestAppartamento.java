@@ -13,9 +13,13 @@ public class TestAppartamento {
 		// TEST METODO list()##########################################
 		testList();
 
-		// TEST METODO insert()()##########################################
+		// TEST METODO insert()######################################
 		AppartamentoDAO appartamentoDAOInstance = new AppartamentoDAO();
 		testInsert(appartamentoDAOInstance);
+
+		// TEST METODO update()########################################
+		AppartamentoDAO appartamentoDAOInstance2 = new AppartamentoDAO();
+		testUpdate(appartamentoDAOInstance2);
 
 	}
 
@@ -46,6 +50,17 @@ public class TestAppartamento {
 			throw new RuntimeException("testInserimentoAppartamento : FAILED");
 
 		System.out.println("testInsert() fine......");
+	}
+
+	private static void testUpdate(AppartamentoDAO appartamentoDAOInstance) {
+		System.out.println("testUpdateAppartamento inizio.......");
+
+		Appartamento appartamentoDaModificare = appartamentoDAOInstance.list().get(0);
+		appartamentoDaModificare.setQuartiere("Parioli");
+
+		appartamentoDAOInstance.update(appartamentoDaModificare);
+
+		System.out.println("testUpdateAppartamento fine.......");
 	}
 
 }

@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
-import it.prova.connection.MyConnection;
 import it.prova.gestioneappartamento.connection.*;
 import it.prova.gestioneappartamento.model.*;
 
 public class AppartamentoDAO {
 
 	public List<Appartamento> list() {
-		
+
 		List<Appartamento> result = new ArrayList<Appartamento>();
 		Appartamento appartamentoTemp = null;
 
@@ -38,30 +37,58 @@ public class AppartamentoDAO {
 			throw new RuntimeException(e);
 		}
 		return result;
-		
+
 	}
-	
+
 	public int insert(Appartamento input) {
-		
+
 		if (input == null)
 			throw new RuntimeException("Impossibile inserire Appartamento: input mancante!");
 
 		int result = 0;
 		try (Connection c = MyConnection.getConnection();
-				PreparedStatement ps = c.prepareStatement("INSERT INTO appartamento (quartiere, metriquadrati, prezzo, datacostruzione) VALUES (?, ?, ?, ?);")) {
+				PreparedStatement ps = c.prepareStatement(
+						"INSERT INTO appartamento (quartiere, metriquadrati, prezzo, datacostruzione) VALUES (?, ?, ?, ?);")) {
 
 			ps.setString(1, input.getQuartiere());
 			ps.setInt(2, input.getMetriQuadrati());
 			ps.setInt(3, input.getPrezzo());
 			ps.setDate(4, new java.sql.Date(input.getDataCostruzione().getTime()));
-			
+
 			result = ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 		return result;
-		
+
+	}
+
+	public int update(Appartamento input) {
+
+		if (input == null || input.getId() < 1)
+			throw new RuntimeException("Impossibile modificare appartamento: input mancante!");
+
+		int result = 0;
+		try (Connection c = MyConnection.getConnection();
+				PreparedStatement ps = c.prepareStatement(
+						"UPDATE appartamento SET quartiere=?, metriquadrati=?, prezzo=?, datacostruzione=? where id=?;")) {
+
+			ps.setString(1, input.getQuartiere());
+			ps.setInt(2, input.getMetriQuadrati());
+			ps.setInt(3, input.getPrezzo());
+			ps.setDate(4, new java.sql.Date(input.getDataCostruzione().getTime()));
+
+			ps.setLong(5, input.getId());
+
+			result = ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return result;
+
 	}
 
 }
