@@ -1,32 +1,35 @@
 package it.prova.gestioneappartamento.test;
 
 import java.util.Date;
+import java.util.List;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import it.prova.dao.NegozioDAO;
 import it.prova.gestioneappartamento.dao.AppartamentoDAO;
 import it.prova.gestioneappartamento.model.Appartamento;
-import it.prova.model.Negozio;
 
 public class TestAppartamento {
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, SQLException {
 
-//		// TEST METODO list()##########################################
-//		testList();
-//
-//		// TEST METODO insert()########################################
-//		AppartamentoDAO appartamentoDAOInstance = new AppartamentoDAO();
-//		testInsert(appartamentoDAOInstance);
-//
-//		// TEST METODO update()########################################
-//		AppartamentoDAO appartamentoDAOInstance2 = new AppartamentoDAO();
-//		testUpdate(appartamentoDAOInstance2);
-//		
-//		// TEST METODO delete()########################################
-//		AppartamentoDAO appartamentoDAOInstance3 = new AppartamentoDAO();
-//		testDelete(appartamentoDAOInstance3);
+		// TEST METODO list()##########################################
+		testList();
 
+		// TEST METODO insert()########################################
+		AppartamentoDAO appartamentoDAOInstance = new AppartamentoDAO();
+		testInsert(appartamentoDAOInstance);
+
+		// TEST METODO update()########################################
+		AppartamentoDAO appartamentoDAOInstance2 = new AppartamentoDAO();
+		testUpdate(appartamentoDAOInstance2);
+
+		// TEST METODO delete()########################################
+		AppartamentoDAO appartamentoDAOInstance3 = new AppartamentoDAO();
+		testDelete(appartamentoDAOInstance3);
+
+		// TEST METODO findById()######################################
+		AppartamentoDAO appartamentoDAOInstance4 = new AppartamentoDAO();
+		testFindById(appartamentoDAOInstance4);
 	}
 
 	public static void testList() {
@@ -68,7 +71,7 @@ public class TestAppartamento {
 
 		System.out.println("testUpdateAppartamento fine.......");
 	}
-	
+
 	private static void testDelete(AppartamentoDAO appartamentoDAOInstance) {
 		System.out.println(".......testDelete inizio.............");
 
@@ -79,6 +82,22 @@ public class TestAppartamento {
 			throw new RuntimeException("testDeleteNegozio : FAILED");
 
 		System.out.println(".......testDelete fine: PASSED.............");
+	}
+
+	private static void testFindById(AppartamentoDAO appartamentoDAOInstance) throws SQLException {
+
+		System.out.println(".......testfindById inizio.............");
+
+		AppartamentoDAO appartamentoDaTrovare = new AppartamentoDAO();
+		Appartamento result = appartamentoDaTrovare.findById(2L);
+
+		if (result == null) {
+			throw new RuntimeException("........testFindById failed.....");
+		}
+
+		System.out.println(result.getQuartiere() + " " + result.getPrezzo() + " " + result.getMetriQuadrati() + " "
+				+ result.getDataCostruzione());
+		System.out.println(".......testfindById fine.............");
 	}
 
 }

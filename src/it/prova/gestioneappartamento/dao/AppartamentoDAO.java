@@ -3,6 +3,7 @@ package it.prova.gestioneappartamento.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,4 +112,34 @@ public class AppartamentoDAO {
 
 	}
 
+	public Appartamento findById(Long idAppartamentoInput) throws SQLException {
+
+		if (idAppartamentoInput == null || idAppartamentoInput < 1)
+			throw new RuntimeException("Impossibile trovare appartamento: id mancante!");
+
+		Appartamento result = null;
+		try (Connection c = MyConnection.getConnection();
+				PreparedStatement ps = c.prepareStatement("select * from appartamento i where i.id=?")) {
+
+			ps.setLong(1, idAppartamentoInput);
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					result = new Appartamento();
+					result.setId(rs.getLong("id"));
+					result.setQuartiere(rs.getString("quartiere"));
+					result.setMetriQuadrati(rs.getInt("metriquadrati"));
+					result.setPrezzo(rs.getInt("prezzo"));
+					result.setDataCostruzione(rs.getDate("datacostruzione"));
+				} else {
+					result = null;
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+			return result;
+		}
+
+	}
 }
