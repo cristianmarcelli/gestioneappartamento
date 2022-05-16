@@ -26,6 +26,7 @@ public class AppartamentoDAO {
 			while (rs.next()) {
 				appartamentoTemp = new Appartamento();
 				appartamentoTemp.setId(rs.getLong("id"));
+				appartamentoTemp.setQuartiere(rs.getString("quartiere"));
 				appartamentoTemp.setMetriQuadrati(rs.getInt("metriquadrati"));
 				appartamentoTemp.setPrezzo(rs.getInt("prezzo"));
 				appartamentoTemp.setDataCostruzione(rs.getDate("datacostruzione"));
@@ -142,4 +143,48 @@ public class AppartamentoDAO {
 		}
 
 	}
+
+	public List<Appartamento> findByExample(Appartamento example) throws SQLException {
+
+		List<Appartamento> result = new ArrayList<Appartamento>();
+		Appartamento temp = null;
+
+		String query = "select * from appartamento a where";
+
+		if (!(example.getQuartiere().equals("")) || example.getQuartiere() != null) {
+			query += " and a.quartiere like " + example.getQuartiere() + '%';
+		}
+		if (example.getPrezzo() > 0) {
+			query += " and a.prezzo = ?";
+		}
+		if (example.getMetriQuadrati() != 0) {
+			query += " and a.metriquadrati = " + example.getMetriQuadrati();
+		}
+		if (example.getDataCostruzione() != null) {
+			query += " and a.datacostruzione = " + example.getDataCostruzione();
+		}
+		query += ";";
+
+		try (Connection c = MyConnection.getConnection();
+				PreparedStatement ps = c.prepareStatement(query);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+//				temp = new Appartamento();
+//				temp.setId(rs.getLong("id"));
+//				temp.setQuartiere(rs.getString("quartiere"));
+//				temp.setMetriQuadrati(rs.getInt("metriquadrati"));
+//				temp.setPrezzo(rs.getInt("prezzo"));
+//				temp.setDataCostruzione(new java.sql.Date(example.getDataCostruzione().getTime()));
+
+				result.add(temp);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return result;
+	}
+
 }

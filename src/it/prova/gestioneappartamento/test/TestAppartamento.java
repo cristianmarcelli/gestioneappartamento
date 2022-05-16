@@ -12,24 +12,29 @@ import it.prova.gestioneappartamento.model.Appartamento;
 public class TestAppartamento {
 	public static void main(String[] args) throws ParseException, SQLException {
 
-		// TEST METODO list()##########################################
-		testList();
-
-		// TEST METODO insert()########################################
-		AppartamentoDAO appartamentoDAOInstance = new AppartamentoDAO();
-		testInsert(appartamentoDAOInstance);
-
-		// TEST METODO update()########################################
-		AppartamentoDAO appartamentoDAOInstance2 = new AppartamentoDAO();
-		testUpdate(appartamentoDAOInstance2);
-
-		// TEST METODO delete()########################################
-		AppartamentoDAO appartamentoDAOInstance3 = new AppartamentoDAO();
-		testDelete(appartamentoDAOInstance3);
-
-		// TEST METODO findById()######################################
-		AppartamentoDAO appartamentoDAOInstance4 = new AppartamentoDAO();
-		testFindById(appartamentoDAOInstance4);
+//		// TEST METODO list()###########################################
+//		testList();
+//
+//		// TEST METODO insert()#########################################
+//		AppartamentoDAO appartamentoDAOInstance = new AppartamentoDAO();
+//		testInsert(appartamentoDAOInstance);
+//
+//		// TEST METODO update()#########################################
+//		AppartamentoDAO appartamentoDAOInstance2 = new AppartamentoDAO();
+//		testUpdate(appartamentoDAOInstance2);
+//
+//		// TEST METODO delete()#########################################
+//		AppartamentoDAO appartamentoDAOInstance3 = new AppartamentoDAO();
+//		testDelete(appartamentoDAOInstance3);
+//
+//		// TEST METODO findById()#######################################
+//		AppartamentoDAO appartamentoDAOInstance4 = new AppartamentoDAO();
+//		testFindById(appartamentoDAOInstance4);
+		
+		// TEST METODO findByExample()##################################
+		AppartamentoDAO appartamentoDAOInstance5 = new AppartamentoDAO();
+		
+		testFindByExample(appartamentoDAOInstance5);
 	}
 
 	public static void testList() {
@@ -98,6 +103,20 @@ public class TestAppartamento {
 		System.out.println(result.getQuartiere() + " " + result.getPrezzo() + " " + result.getMetriQuadrati() + " "
 				+ result.getDataCostruzione());
 		System.out.println(".......testfindById fine.............");
+	}
+	
+	public static void testFindByExample(AppartamentoDAO appartamentoDAOInstance) throws SQLException {
+System.out.println("--------------Inizio testFindByExample-------------");
+		
+		Appartamento result = new Appartamento();
+		result.setQuartiere("tor");
+		result.setMetriQuadrati(200);
+		
+		List<Appartamento> lista = appartamentoDAOInstance.findByExample(result);
+		for(Appartamento r : lista) {
+			System.out.println(r.getQuartiere()+" prezzo: "+ r.getPrezzo()+ " , metri quadri: "+ r.getMetriQuadrati());
+		}
+		
 	}
 
 }
