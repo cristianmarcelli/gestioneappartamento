@@ -13,6 +13,14 @@ public class Appartamento {
 	public Appartamento() {
 	}
 
+	public Appartamento(String quartiere, int metriQuadrati, int prezzo, Date dataCostruzione) {
+		super();
+		this.quartiere = quartiere;
+		this.metriQuadrati = metriQuadrati;
+		this.prezzo = prezzo;
+		this.dataCostruzione = dataCostruzione;
+	}
+
 	public Appartamento(Long id, String quartiere, int metriQuadrati, int prezzo, Date dataCostruzione) {
 		super();
 		this.id = id;
